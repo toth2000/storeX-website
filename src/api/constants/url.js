@@ -1,6 +1,6 @@
 export const apiTestingUrl = "http://localhost:5000";
-// export const apiProductionUrl = "https://store-x-backend.onrender.com";
-export const apiProductionUrl = "https://store-x-server.vercel.app";
+export const apiProductionUrl = "https://store-x-backend.onrender.com";
+// export const apiProductionUrl = "https://store-x-server.vercel.app";
 
 /** Product Route */
 
