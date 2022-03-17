@@ -1,4 +1,4 @@
-export const apiTestingUrl = "http://localhost:5000";
+// export const apiProductionUrl = "http://localhost:5000";
 export const apiProductionUrl = "https://store-x-backend.onrender.com";
 // export const apiProductionUrl = "https://store-x-server.vercel.app";
 
