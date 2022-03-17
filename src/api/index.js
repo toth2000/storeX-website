@@ -17,12 +17,11 @@ API.interceptors.request.use((req) => {
 API.interceptors.response.use(
   (res) => res,
   async (err) => {
-    if (err?.response?.data?.message !== "Access Token Expired") return;
-    if (err?.response?.data?.message !== "Refresh Token Expired") {
+    if (err?.response?.data?.message === "Refresh Token Expired") {
       localStorage.clear();
-      window.location.reload();
+      window.location.href = "/auth";
       return;
-    }
+    } else if (err?.response?.data?.message !== "Access Token Expired") return;
 
     if (localStorage.getItem("user")) {
       const user = JSON.parse(localStorage.getItem("user"));
