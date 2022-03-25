@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { createOrder } from "../../api/order";
 import { verifyPayment } from "../../api/payment";
 import { deleteCart } from "../../redux/action/cart";
+import { setProgress } from "../../redux/action/progress";
 
 const ShoppingCart = () => {
   const cartItem = useSelector((state) => state.cart);
@@ -51,31 +52,42 @@ const ShoppingCart = () => {
   });
 
   const getAllProducts = async () => {
-    let amount = 0;
-    let productList = {};
+    try {
+      let amount = 0;
+      let productList = {};
 
-    await Promise.all(
-      cartItem.products.map(async (item) => {
-        const { data } = await findProductById(item.productId);
-        amount += item.quantity * data.price;
-        productList = {
-          ...productList,
-          [item.productId]: {
-            ...data,
-            quantity: item.quantity,
-            size: item.size,
-            color: item.color,
-          },
-        };
-      })
-    );
+      dispatch(setProgress(true));
 
-    setTotalPrice(amount);
-    setProducts(productList);
+      await Promise.all(
+        cartItem.products.map(async (item) => {
+          const { data } = await findProductById(item.productId);
+          amount += item.quantity * data.price;
+          productList = {
+            ...productList,
+            [item.productId]: {
+              ...data,
+              quantity: item.quantity,
+              size: item.size,
+              color: item.color,
+            },
+          };
+        })
+      );
+
+      setTotalPrice(amount);
+      setProducts(productList);
+    } catch (error) {
+      console.log("Error loading cart items", error);
+      console.log("Error loading cart items API", error.response);
+    } finally {
+      dispatch(setProgress(false));
+    }
   };
 
   const razorpayCreateOrder = async () => {
     try {
+      dispatch(setProgress(true));
+
       const { data } = await createOrder(
         formData,
         cartItem.products,
@@ -85,6 +97,7 @@ const ShoppingCart = () => {
       razorpayPayment(data.amount, data.razorpayOrderId, data);
     } catch (error) {
       console.log("Error in handlePayNow createOrder API call", error.response);
+      dispatch(setProgress(false));
     }
   };
 
@@ -133,6 +146,7 @@ const ShoppingCart = () => {
         razorpay_payment_id,
         razorpay_signature
       );
+      dispatch(deleteCart([]));
     } catch (error) {
       console.log("Shopping Cart Verify Paymeny API Call\n:", error.response);
       console.log("Shopping Cart Verify Paymeny API Call\n:", error);
@@ -140,8 +154,8 @@ const ShoppingCart = () => {
         "Payment Successful but the status could't be updated automatically due to some server error. Kindly send an email to the customer service with order details and the issue will be resolved"
       );
     } finally {
-      dispatch(deleteCart([]));
       navigate(`/order/${order._id}`);
+      dispatch(setProgress(false));
     }
   };
 

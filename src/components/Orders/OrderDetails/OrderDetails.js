@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import { findOrderById } from "../../../api/order";
+import { setProgress } from "../../../redux/action/progress";
 
 import ProductItem from "../ProductItem/ProductItem";
+
 import {
   AddressContainer,
   Container,
@@ -23,13 +26,19 @@ const OrderDetails = () => {
   const location = useLocation();
   const [order, setOrder] = useState(null);
 
+  const dispatch = useDispatch();
+
   const getOrder = async (orderId) => {
     try {
+      dispatch(setProgress(true));
+
       const { data } = await findOrderById(orderId);
       setOrder(data);
     } catch (error) {
       console.log(error);
       console.log("Error in OrderDetails, getOrder API call\n", order);
+    } finally {
+      dispatch(setProgress(false));
     }
   };
 
@@ -95,12 +104,14 @@ const OrderDetails = () => {
           <OrderInfoText>{`Payment Id: ${order?.razorpayPaymentId}`}</OrderInfoText>
         </OrderInfoContainer>
         <PriceContainer>
-          <OrderInfoText>{`Price\t\t\t INR ${
-            (order?.amount * ((100 - order?.taxPercentage) / 100)).toFixed(2)
-          }`}</OrderInfoText>
-          <OrderInfoText>{`GST\t\t\t INR ${
-            (order?.amount * (order?.taxPercentage / 100)).toFixed(2)
-          }`}</OrderInfoText>
+          <OrderInfoText>{`Price\t\t\t INR ${(
+            order?.amount *
+            ((100 - order?.taxPercentage) / 100)
+          ).toFixed(2)}`}</OrderInfoText>
+          <OrderInfoText>{`GST\t\t\t INR ${(
+            order?.amount *
+            (order?.taxPercentage / 100)
+          ).toFixed(2)}`}</OrderInfoText>
           <OrderInfoText>{`Subtotal\t\t\t INR ${
             order?.amount - order?.shippingCost
           }`}</OrderInfoText>

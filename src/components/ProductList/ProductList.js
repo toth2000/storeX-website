@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Products from "../Products/Products";
 import Filter from "../Filter/Filter";
 import { filterData } from "./filterData";
 import { fetchProducts } from "../../api/product";
+import { setProgress } from "../../redux/action/progress";
 
 import { CancelOutlined } from "@mui/icons-material";
 import {
@@ -27,6 +29,7 @@ const ProductList = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getProducts = async () => {
     try {
@@ -44,11 +47,15 @@ const ProductList = () => {
 
       if (filter.size) query = query.concat(`size=${filter.size}`);
 
+      dispatch(setProgress(true));
+
       const { data } = await fetchProducts(query);
       console.log(data);
       setProducts(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setProgress(false));
     }
   };
 

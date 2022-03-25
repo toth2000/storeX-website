@@ -10,10 +10,12 @@ import Auth from "./pages/Auth";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
+import Progress from "./components/Progress/Progess";
 
 function App() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Progress />
       <Annoucement />
       <Navbar />
       <Routes>

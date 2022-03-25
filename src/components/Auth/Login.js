@@ -14,6 +14,8 @@ import {
   StyledLink,
 } from "./style";
 
+import { setProgress } from "../../redux/action/progress";
+
 const Login = ({ setIsLogin }) => {
   const [data, setData] = useState({
     email: "",
@@ -34,6 +36,9 @@ const Login = ({ setIsLogin }) => {
         alert("Uername/email or password can't be empty");
         return;
       }
+
+      dispatch(setProgress(true));
+
       const response = await signIn({
         username: data.email,
         password: data.password,
@@ -44,6 +49,8 @@ const Login = ({ setIsLogin }) => {
     } catch (error) {
       console.log("handleLogin, Auth/Login.js", error?.response);
       if (error?.response?.data?.message) alert(error?.response?.data?.message);
+    } finally {
+      dispatch(setProgress(false));
     }
   };
 

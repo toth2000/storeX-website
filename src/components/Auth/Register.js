@@ -14,6 +14,8 @@ import {
   StyledLink,
 } from "./style";
 
+import { setProgress } from "../../redux/action/progress";
+
 const Register = ({ setIsLogin }) => {
   const [data, setData] = useState({
     firstName: "",
@@ -52,6 +54,8 @@ const Register = ({ setIsLogin }) => {
         return;
       }
 
+      dispatch(setProgress(true));
+
       const response = await signUp({
         fullName: `${data.firstName} ${data.lastName}`,
         username: data.username,
@@ -64,6 +68,8 @@ const Register = ({ setIsLogin }) => {
     } catch (error) {
       console.log("handleLogin, Auth/Login.js", error?.response);
       if (error?.response?.data?.message) alert(error?.response?.data?.message);
+    } finally {
+      dispatch(setProgress(false));
     }
   };
 

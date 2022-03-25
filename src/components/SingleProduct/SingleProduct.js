@@ -22,6 +22,7 @@ import { useLocation } from "react-router-dom";
 import { addItem } from "../../redux/action/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { findProductById } from "../../api/product";
+import { setProgress } from "../../redux/action/progress";
 
 const SingleProduct = () => {
   const [product, setProduct] = useState(null);
@@ -38,9 +39,16 @@ const SingleProduct = () => {
   const cartItem = useSelector((state) => state.cart);
 
   const getProduct = async (id) => {
-    const { data } = await findProductById(id);
-
-    setProduct(data);
+    try {
+      dispatch(setProgress(true));
+      const { data } = await findProductById(id);
+      setProduct(data);
+    } catch (error) {
+      console.log("Error loading order", error);
+      console.log("Error loading order API", error.response);
+    } finally {
+      dispatch(setProgress(false));
+    }
   };
 
   const handleFilterChange = (event) => {
