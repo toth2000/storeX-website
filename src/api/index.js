@@ -17,9 +17,12 @@ API.interceptors.request.use((req) => {
 API.interceptors.response.use(
   (res) => res,
   async (err) => {
-    if (err?.response?.data?.message === "Refresh Token Expired") {
+    if (
+      err?.response?.data?.message === "Refresh Token Expired" ||
+      err?.response?.data?.message === "Login Required"
+    ) {
       localStorage.clear();
-      window.location.href = "/auth";
+      window.location.href = "/auth?login=true";
       return;
     } else if (err?.response?.data?.message !== "Access Token Expired") return;
 
