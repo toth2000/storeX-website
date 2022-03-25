@@ -47,8 +47,8 @@ const Login = ({ setIsLogin }) => {
       dispatch(loginUser(response.data));
       navigate("/");
     } catch (error) {
+      console.log(error);
       console.log("handleLogin, Auth/Login.js", error?.response);
-      if (error?.response?.data?.message) alert(error?.response?.data?.message);
     } finally {
       dispatch(setProgress(false));
     }

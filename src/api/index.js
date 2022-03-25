@@ -24,7 +24,10 @@ API.interceptors.response.use(
       localStorage.clear();
       window.location.href = "/auth?login=true";
       return;
-    } else if (err?.response?.data?.message !== "Access Token Expired") return;
+    } else if (err?.response?.data?.message !== "Access Token Expired") {
+      alert(err?.response?.data?.message);
+      return;
+    };
 
     if (localStorage.getItem("user")) {
       const user = JSON.parse(localStorage.getItem("user"));
