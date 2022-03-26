@@ -25,7 +25,10 @@ API.interceptors.response.use(
       window.location.href = "/auth?login=true";
       return;
     } else if (err?.response?.data?.message !== "Access Token Expired") {
-      alert(err?.response?.data?.message);
+
+      if(err?.response?.data?.message !== "Authentication required")
+        alert(err?.response?.data?.message);
+        
       return;
     };
 
