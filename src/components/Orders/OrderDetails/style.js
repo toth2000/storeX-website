@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mobile } from "../../../responsive";
 
 export const Container = styled.div`
   display: flex;
@@ -10,11 +11,20 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   font-weight: 300;
+
+  ${mobile({
+    margin: 0
+  })}
 `;
 
 export const TopContainer = styled.div`
   display: flex;
   width: 90%;
+
+  ${mobile({
+    flexDirection: "column",
+    gap: "25px"
+  })}
 `;
 
 export const AddressContainer = styled.div`
