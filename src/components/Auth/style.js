@@ -21,6 +21,7 @@ export const Wrapper = styled.div`
   ${mobile({
     width: "70%",
   })}
+  
 `;
 
 export const Title = styled.h1`

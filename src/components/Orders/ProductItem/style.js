@@ -12,17 +12,26 @@ export const ImageContainer = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+
+  ${mobile({
+    flexDirection: "column",
+  })}
 `;
 
 export const Image = styled.img`
   width: 150px;
+
   ${mobile({
-    width: "90px",
+    width: "70px",
   })}
 `;
 
 export const ProductName = styled.span`
   word-break: word-break;
+
+  ${mobile({
+    textAlign: "center",
+  })}
 `;
 
 export const InfoContainer = styled.div`
@@ -30,6 +39,10 @@ export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+
+  ${mobile({
+    alignSelf: "baseline",
+  })}
 `;
 
 export const InfoText = styled.span``;
@@ -39,6 +52,10 @@ export const PriceContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-right: 20px;
+
+  ${mobile({
+    alignSelf: "baseline",
+  })}
 `;
 
 export const Price = styled.span``;

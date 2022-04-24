@@ -1,4 +1,4 @@
-import { API } from ".";
+import { API } from "./index";
 
 import { registerUrl, signInUrl } from "./constants/url";
 

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { mobile } from "../../../responsive";
+
 
 export const Container = styled.div`
   width: 80%;
@@ -12,6 +14,12 @@ export const Container = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
+
+  ${mobile({
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "2px",
+  })}
 `;
 
 export const OrderId = styled.h6`
@@ -20,6 +28,10 @@ export const OrderId = styled.h6`
   flex: 1;
   padding: 10px;
   text-align: start;
+
+  ${mobile({
+    padding: "0",
+  })}
 `;
 
 export const OrderDate = styled.h6`
@@ -28,6 +40,10 @@ export const OrderDate = styled.h6`
   flex: 1;
   padding: 10px;
   text-align: center;
+
+  ${mobile({
+    padding: "0",
+  })}
 `;
 
 export const OrderAmount = styled.h6`
@@ -36,6 +52,10 @@ export const OrderAmount = styled.h6`
   flex: 1;
   padding: 10px;
   text-align: end;
+
+  ${mobile({
+    padding: "0",
+  })}
 `;
 
 export const Hr = styled.hr`

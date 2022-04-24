@@ -78,7 +78,6 @@ const SingleProduct = () => {
   };
 
   useEffect(() => {
-    console.log(cartItem);
     const path = location.pathname.split("/");
     const id = path[2];
     getProduct(id);
